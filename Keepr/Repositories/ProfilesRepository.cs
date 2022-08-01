@@ -15,12 +15,12 @@ namespace Keepr.Repositories
             _db = db;
         }
 
-        internal Profile GetProfile(string id)
+        internal Account GetProfile(string id)
         {
             string sql = "SELECT * FROM accounts WHERE id = @id";
-            return _db.QueryFirstOrDefault<Profile>(sql, new { id });
+            return _db.QueryFirstOrDefault<Account>(sql, new { id });
         }
-        // internal Profile GetProfile(string id)
+        // internal Account GetProfile(string id)
         // {
         //     string sql = @"
         //     SELECT 

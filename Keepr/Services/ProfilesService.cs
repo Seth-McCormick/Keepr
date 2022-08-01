@@ -14,10 +14,10 @@ namespace Keepr.Services
             _repo = repo;
         }
 
-        internal Profile GetProfile(string id)
+        internal Account GetProfile(string id)
         {
-            Profile found = _repo.GetProfile(id);
-            if (found == null)
+            Account found = _repo.GetProfile(id);
+            if (found.Id == null)
             {
                 throw new Exception("Invalid Id");
             }

@@ -36,11 +36,11 @@ namespace Keepr.Services
 
         internal VaultKeep Create(VaultKeep vaultKeepData)
         {
-            // VaultKeep found = _repo.Get(vaultKeepData.Id);
-            // if (found.CreatorId == null)
-            // {
-            //     throw new Exception("Not your vault to add keeps too");
-            // }
+            VaultKeep found = _repo.Get(vaultKeepData.Id);
+            if (found.CreatorId == null)
+            {
+                throw new Exception("Can't Add a keep to a vault");
+            }
             return _repo.Create(vaultKeepData);
         }
 

@@ -39,6 +39,9 @@ namespace Keepr.Services
             return _repo.Edit(original);
         }
 
-
+        internal Vault GetVaultByAccount(string id)
+        {
+            return _repo.getMyVault(id);
+        }
     }
 }

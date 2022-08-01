@@ -49,6 +49,19 @@ namespace Keepr.Repositories
             return update;
         }
 
+        internal Vault getMyVault(string id)
+        {
+            string sql = @"
+           SELECT
+           a.*,
+           v.*
+           FROM accounts a
+           JOIN vaults v ON v.creatorId = a.id
+           WHERE a.id = v.creatorId
+           ";
 
+            return _db.QueryFirstOrDefault<Vault>(sql, new { id });
+
+        }
     }
 }

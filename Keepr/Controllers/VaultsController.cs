@@ -87,6 +87,7 @@ namespace Keepr.Controllers
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
                 vaultData.CreatorId = userInfo.Id;
+                vaultData.Id = id;
                 Vault update = _vs.Edit(vaultData, userInfo.Id);
                 return Ok(update);
             }

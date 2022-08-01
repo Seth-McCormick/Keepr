@@ -36,7 +36,7 @@ namespace Keepr.Services
         internal Vault GetById(int id, string userId)
         {
             Vault vault = _repo.GetById(id);
-            if (vault.IsPrivate == true)
+            if (vault.IsPrivate == true && vault.CreatorId != userId)
             {
                 throw new Exception("Vault is set to Private");
             }
@@ -51,8 +51,8 @@ namespace Keepr.Services
 
         internal Vault Edit(Vault vaultData, string userId)
         {
-            Vault original = ValidateOwnership(vaultData.Id, vaultData.CreatorId);
-            if (vaultData.CreatorId != userId)
+            Vault original = ValidateOwnership(vaultData.Id, userId);
+            if (original.CreatorId != userId)
             {
                 throw new Exception("You can't edit this!");
             }
@@ -67,12 +67,8 @@ namespace Keepr.Services
 
         internal Vault GetVaultByAccount(string userId)
         {
-            Vault vault = _repo.GetVaultByAccount(userId);
-            if (vault.CreatorId != userId)
-            {
-                throw new Exception("Not Your Vault");
-            }
-            return vault;
+            return _repo.GetVaultByAccount(userId);
+
         }
 
         internal void Delete(int id, string userId)

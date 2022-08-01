@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using CodeWorks.Auth0Provider;
 using Keepr.Models;
 using Keepr.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -14,29 +12,25 @@ namespace Keepr.Controllers
     {
         private readonly ProfilesService _ps;
 
-        private readonly AccountService _as;
+        private readonly VaultsService _vs;
 
-        public ProfilesController(ProfilesService ps, AccountService @as)
+        public ProfilesController(ProfilesService ps, VaultsService vs)
         {
             _ps = ps;
-            _as = @as;
+            _vs = vs;
         }
 
         [HttpGet("{id}")]
 
-        public async Task<ActionResult<Profile>> GetProfile(string id)
+        public ActionResult<Account> GetProfile(string id)
         {
             try
             {
-                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-                id = userInfo.Id;
-                Profile profile = _ps.GetProfile(id);
+                Account profile = _ps.GetProfile(id);
                 return Ok(profile);
-
             }
             catch (Exception error)
             {
-
                 return BadRequest(error.Message);
             }
         }

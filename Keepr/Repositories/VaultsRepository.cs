@@ -33,8 +33,18 @@ namespace Keepr.Repositories
 
         internal Vault Get(int id)
         {
-            string sql = "SELECT * FROM vaults WHERE id = @id";
-            return _db.QueryFirstOrDefault<Vault>(sql, new { id });
+            string sql = @"
+            SELECT 
+            a.*,
+            v.*
+            FROM vaults v
+            JOIN accounts a ON a.id = v.creatorId
+            WHERE v.id = @id";
+            return _db.Query<Account, Vault, Vault>(sql, (profile, vault) =>
+           {
+               vault.Creator = profile;
+               return vault;
+           }, new { id }).FirstOrDefault();
         }
 
         internal Vault Create(Vault vaultData)
@@ -52,7 +62,7 @@ namespace Keepr.Repositories
             return vaultData;
         }
 
-        internal void Edit(Vault update)
+        internal void Edit(Vault original)
         {
             string sql = @"
           UPDATE vaults 
@@ -60,28 +70,32 @@ namespace Keepr.Repositories
             name = @Name,
             description = @Description,
             isPrivate = @IsPrivate
-            WHERE id = @Id;
           ";
-            _db.Execute(sql, update);
+            _db.Execute(sql, original);
 
         }
 
         internal Vault GetVaultByAccount(string userId)
         {
-            string sql = @"
-           SELECT
-            a.*,
-            v.*
-            FROM vaults v
-            JOIN accounts a ON a.id = v.creatorId
-            WHERE v.creatorId = userId
-           ";
-            return _db.Query<Account, Vault, Vault>(sql, (profile, vault) =>
-            {
-                vault.Creator = profile;
-                return vault;
-            }, new { userId }).FirstOrDefault();
+            string sql = "SELECT * FROM vaults WHERE userId = @vault.creatorId";
+            return _db.QueryFirstOrDefault<Vault>(sql, new { userId });
         }
+        // internal Vault GetVaultByAccount(string userId)
+        // {
+        //     string sql = @"
+        //    SELECT
+        //     a.*,
+        //     v.*
+        //     FROM vaults v
+        //     JOIN accounts a ON a.id = v.creatorId
+        //     WHERE v.creatorId = userId
+        //    ";
+        //     return _db.Query<Account, Vault, Vault>(sql, (profile, vault) =>
+        //     {
+        //         vault.Creator = profile;
+        //         return vault;
+        //     }, new { userId }).FirstOrDefault();
+        // }
 
         internal void Delete(int id)
         {
