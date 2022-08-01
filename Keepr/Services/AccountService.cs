@@ -29,6 +29,8 @@ namespace Keepr.Services
             return profile;
         }
 
+
+
         internal Account Edit(Account editData, string userEmail)
         {
             Account original = GetProfileByEmail(userEmail);
@@ -36,5 +38,7 @@ namespace Keepr.Services
             original.Picture = editData.Picture.Length > 0 ? editData.Picture : original.Picture;
             return _repo.Edit(original);
         }
+
+
     }
 }

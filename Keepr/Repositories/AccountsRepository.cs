@@ -36,6 +36,7 @@ namespace Keepr.Repositories
             return newAccount;
         }
 
+
         internal Account Edit(Account update)
         {
             string sql = @"
@@ -47,5 +48,7 @@ namespace Keepr.Repositories
             _db.Execute(sql, update);
             return update;
         }
+
+
     }
 }
