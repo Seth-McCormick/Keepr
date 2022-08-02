@@ -23,7 +23,7 @@ namespace Keepr.Repositories
             k.*,
             vk.id AS VaultKeepId
              FROM vaultKeeps vk
-             JOIN accounts a ON a.id = vk.creatorId
+             JOIN accounts a ON a.id = vk.creatorId  
              JOIN keeps k ON k.id = vk.keepId
              WHERE vk.vaultId = @id";
 
@@ -50,8 +50,8 @@ namespace Keepr.Repositories
            (@VaultId, @KeepId, @CreatorId);
            SELECT LAST_INSERT_ID();
            ";
-            int id = _db.ExecuteScalar<int>(sql, vaultKeepData);
-            vaultKeepData.Id = id;
+            vaultKeepData.Id = _db.ExecuteScalar<int>(sql, vaultKeepData);
+
             return vaultKeepData;
         }
 

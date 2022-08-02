@@ -9,11 +9,13 @@ namespace Keepr.Services
     {
         private readonly VaultKeepsRepository _repo;
         private readonly VaultsService _vs;
+        private readonly KeepsService _ks;
 
-        public VaultKeepsService(VaultKeepsRepository repo, VaultsService vs)
+        public VaultKeepsService(VaultKeepsRepository repo, VaultsService vs, KeepsService ks)
         {
             _repo = repo;
             _vs = vs;
+            _ks = ks;
         }
 
         private VaultKeep Get(int id)
@@ -24,23 +26,26 @@ namespace Keepr.Services
         internal List<VaultKeepsViewModel> GetKeepsByVaultId(int vaultId, string userId)
         {
             Vault found = _vs.GetById(vaultId, userId);
-            if (found.IsPrivate == true)
+            List<VaultKeepsViewModel> keeps = _repo.GetKeepsByVaultId(vaultId, userId);
+
+            if (found.IsPrivate == true && found.CreatorId != userId)
             {
                 throw new Exception("Vault is private");
             }
 
-            List<VaultKeepsViewModel> keeps = _repo.GetKeepsByVaultId(vaultId, userId);
-
             return keeps;
+
         }
 
-        internal VaultKeep Create(VaultKeep vaultKeepData)
+        internal VaultKeep Create(VaultKeep vaultKeepData, string userId)
         {
-            VaultKeep found = _repo.Get(vaultKeepData.Id);
-            if (found.CreatorId == null)
+            Vault found = _vs.GetById(vaultKeepData.VaultId, userId);
+
+            if (found.CreatorId != userId)
             {
                 throw new Exception("Can't Add a keep to a vault");
             }
+
             return _repo.Create(vaultKeepData);
         }
 

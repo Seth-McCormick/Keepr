@@ -1,11 +1,13 @@
 <template>
-    <div class="col-md-3 shadow rounded background-image img-fluid selectable" @click="setActiveKeep"
-        :style="{ 'background-image': `url(${keep.img})` }">
+
+    <div class="col-md-3 shadow rounded background-image img-fluid selectable" data-bs-target="#keep-modal"
+        data-bs-toggle="modal" @click="setActiveKeep" :style="{ 'background-image': `url(${keep.img})` }">
         <div class="d-flex justify-content-between">
             <h4>{{ keep.name }}</h4>
             <img class="action" @click="goToProfile" :src="keep.creator.picture" alt="">
         </div>
     </div>
+
 
 </template>
 

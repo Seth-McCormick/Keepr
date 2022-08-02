@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Keepr.Models;
 using Keepr.Repositories;
 
@@ -11,11 +12,24 @@ namespace Keepr.Services
         public VaultsService(VaultsRepository repo)
         {
             _repo = repo;
+
+        }
+        internal List<VaultKeepsViewModel> GetKeepsByVaultId(int vaultId, string userId)
+        {
+            Vault found = GetById(vaultId, userId);
+            if (found.IsPrivate == true && found.CreatorId != userId)
+            {
+                throw new Exception("Vault is private");
+            }
+
+            return _repo.GetKeepsByVaultId(vaultId, userId);
+
+
         }
 
         private Vault ValidateOwnership(int id, string userId)
         {
-            Vault original = Get(id);
+            Vault original = GetById(id, userId);
             if (original.CreatorId != userId)
             {
                 throw new Exception("Forbidden");
@@ -23,22 +37,26 @@ namespace Keepr.Services
             return original;
         }
 
-        private Vault Get(int id)
-        {
-            Vault found = _repo.Get(id);
-            if (found == null)
-            {
-                throw new Exception("Invalid Id");
-            }
-            return found;
-        }
+        // private Vault Get(int id)
+        // {
+        //     Vault found = _repo.Get(id);
+        //     if (found == null)
+        //     {
+        //         throw new Exception("Invalid Id");
+        //     }
+        //     return found;
+        // }
 
         internal Vault GetById(int id, string userId)
         {
             Vault vault = _repo.GetById(id);
+            if (vault == null)
+            {
+                throw new Exception("Invalid Id");
+            }
             if (vault.IsPrivate == true && vault.CreatorId != userId)
             {
-                throw new Exception("Vault is set to Private");
+                throw new Exception("Vault is private");
             }
 
             return vault;
@@ -65,7 +83,7 @@ namespace Keepr.Services
 
         }
 
-        internal Vault GetVaultByAccount(string userId)
+        internal List<Vault> GetVaultByAccount(string userId)
         {
             return _repo.GetVaultByAccount(userId);
 

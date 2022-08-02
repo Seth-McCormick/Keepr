@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Dapper;
@@ -31,21 +32,21 @@ namespace Keepr.Repositories
             }, new { id }).FirstOrDefault();
         }
 
-        internal Vault Get(int id)
-        {
-            string sql = @"
-            SELECT 
-            a.*,
-            v.*
-            FROM vaults v
-            JOIN accounts a ON a.id = v.creatorId
-            WHERE v.id = @id";
-            return _db.Query<Account, Vault, Vault>(sql, (profile, vault) =>
-           {
-               vault.Creator = profile;
-               return vault;
-           }, new { id }).FirstOrDefault();
-        }
+        // internal Vault Get(int id)
+        // {
+        //     string sql = @"
+        //     SELECT 
+        //     a.*,
+        //     v.*
+        //     FROM vaults v
+        //     JOIN accounts a ON a.id = v.creatorId
+        //     WHERE v.id = @id";
+        //     return _db.Query<Account, Vault, Vault>(sql, (profile, vault) =>
+        //    {
+        //        vault.Creator = profile;
+        //        return vault;
+        //    }, new { id }).FirstOrDefault();
+        // }
 
         internal Vault Create(Vault vaultData)
         {
@@ -74,11 +75,30 @@ namespace Keepr.Repositories
             _db.Execute(sql, original);
 
         }
-
-        internal Vault GetVaultByAccount(string userId)
+        internal List<VaultKeepsViewModel> GetKeepsByVaultId(int id, string userId)
         {
-            string sql = "SELECT * FROM vaults WHERE userId = @vault.creatorId";
-            return _db.QueryFirstOrDefault<Vault>(sql, new { userId });
+            string sql = @"
+            SELECT
+            a.*,
+            k.*,
+            vk.id AS VaultKeepId
+             FROM vaultKeeps vk
+             JOIN accounts a ON a.id = vk.creatorId
+             JOIN keeps k ON k.id = vk.keepId
+             WHERE vk.vaultId = @id";
+
+            return _db.Query<Account, VaultKeepsViewModel, VaultKeepsViewModel>(sql, (profile, vaultKeep) =>
+            {
+                vaultKeep.Creator = profile;
+                return vaultKeep;
+
+            }, new { id }).ToList();
+        }
+
+        internal List<Vault> GetVaultByAccount(string userId)
+        {
+            string sql = "SELECT * FROM vaults WHERE vaults.creatorId = @userId";
+            return _db.Query<Vault>(sql, new { userId }).ToList();
         }
         // internal Vault GetVaultByAccount(string userId)
         // {
