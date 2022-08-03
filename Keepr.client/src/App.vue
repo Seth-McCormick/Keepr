@@ -4,10 +4,11 @@
   </header>
   <main>
     <router-view />
+    <KeepModal />
+    <NewVaultModal />
+    <NewKeepModal />
   </main>
-  <footer>
 
-  </footer>
 </template>
 
 <script>

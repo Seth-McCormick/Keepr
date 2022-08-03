@@ -21,7 +21,8 @@ CREATE TABLE
         createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
         updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
         name VARCHAR(255) NOT NULL,
-        description VARCHAR(255) NOT NULL,
+        description VARCHAR(255),
+        img VARCHAR(255) NOT NULL,
         isPrivate TINYINT NOT NULL DEFAULT 0,
         creatorId VARCHAR(255) NOT NULL,
         FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE

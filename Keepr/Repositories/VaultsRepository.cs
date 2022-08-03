@@ -52,9 +52,9 @@ namespace Keepr.Repositories
         {
             string sql = @"
            INSERT INTO vaults
-           (name, description, isPrivate, creatorId)
+           (name, description, img, isPrivate, creatorId)
            VALUES
-           (@Name, @Description, @IsPrivate, @CreatorId);
+           (@Name, @Description, @Img,  @IsPrivate, @CreatorId);
            SELECT LAST_INSERT_ID();
            ";
 
@@ -70,6 +70,7 @@ namespace Keepr.Repositories
           SET
             name = @Name,
             description = @Description,
+            img = @Img,
             isPrivate = @IsPrivate
           ";
             _db.Execute(sql, original);

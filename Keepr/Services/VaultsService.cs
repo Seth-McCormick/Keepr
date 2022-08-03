@@ -76,6 +76,7 @@ namespace Keepr.Services
             }
             original.Name = vaultData.Name ?? original.Name;
             original.Description = vaultData.Description ?? original.Description;
+            original.Img = vaultData.Img ?? original.Img;
             original.IsPrivate = vaultData.IsPrivate ?? original.IsPrivate;
 
             _repo.Edit(original);

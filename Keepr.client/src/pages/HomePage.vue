@@ -29,11 +29,11 @@ export default {
 <style scoped lang="scss">
 .masonry-frame {
   columns: 4;
+  position: absolute;
 }
 
 div {
   break-inside: avoid;
-  width: auto;
-  height: auto;
+
 }
 </style>
