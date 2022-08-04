@@ -11,7 +11,7 @@
 
 
 
-  <div class="col-md-12 m-5">
+  <div class="col-md-12 m-5 ">
     <div class="d-flex">
       <h1>Vaults</h1>
       <i class="mdi mdi-plus d-flex align-items-center selectable" title="Create Vault" data-bs-toggle="modal"
@@ -19,7 +19,7 @@
     </div>
     <div>
 
-      <div class="row justify-content-around">
+      <div class="row vault-div">
         <Vault v-for="v in vaults" :key="v.id" :vault="v" />
       </div>
     </div>
@@ -49,7 +49,7 @@ import { useRoute } from 'vue-router'
 import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
 import { profilesService } from '../services/ProfilesService'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, watchEffect } from 'vue'
 import { AppState } from '../AppState'
 import { vaultsService } from '../services/VaultsService'
 import { keepsService } from '../services/KeepsService'
@@ -58,14 +58,20 @@ export default {
   name: 'ProfilePage',
 
   setup() {
-    onMounted(async () => {
-      await profilesService.getProfile(route.params.id),
-        await profilesService.getUsersVaults(route.params.id),
-        await profilesService.getUsersKeeps(route.params.id)
-      // await vaultsService.getVaultKeeps(route.params.id)
-    })
     const route = useRoute()
+    watchEffect(async () => {
+      // should have a try catch
+      // when it catches error...push back to the home page
+      if (route.params.id) {
+
+        await profilesService.getProfile(route.params.id),
+          await profilesService.getUsersVaults(route.params.id),
+          await profilesService.getUsersKeeps(route.params.id)
+        // await vaultsService.getVaultKeeps(route.params.id)
+      }
+    })
     return {
+      route,
       profile: computed(() => AppState.activeProfile),
       vaults: computed(() => AppState.usersVaults),
       keeps: computed(() => AppState.usersKeeps),
@@ -98,5 +104,12 @@ div {
   break-inside: avoid;
   width: auto;
   height: auto;
+}
+
+@media (max-width: 756px) {
+  .masonry-frame {
+    columns: 2;
+  }
+
 }
 </style>

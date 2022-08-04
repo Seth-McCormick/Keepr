@@ -12,8 +12,9 @@ class VaultsService {
 
     async getVaultKeeps(id) {
         const res = await api.get(`api/vaults/${id}/keeps`)
-        logger.log(res.data)
+        logger.log("vaultkeep", res.data)
         AppState.vaultKeeps = res.data
+        AppState.activeVaultId = id
     }
 
     async deleteVault(id) {
@@ -24,6 +25,8 @@ class VaultsService {
 
     async createVault(vaultData) {
         const res = await api.post('api/vaults', vaultData)
+        // make sure to push into the userVaults array
+        // return res.data
         logger.log('vault created', res.data)
 
     }

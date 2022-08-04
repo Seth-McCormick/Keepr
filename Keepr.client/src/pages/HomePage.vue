@@ -11,12 +11,14 @@
 import { computed, onMounted } from 'vue'
 import { AppState } from '../AppState'
 import { keepsService } from '../services/KeepsService'
+import { profilesService } from '../services/ProfilesService'
 
 export default {
   name: 'Home',
   setup() {
     onMounted(async () => {
-      await keepsService.getKeeps()
+      await keepsService.getKeeps(),
+        await profilesService.getUsersVaults()
     })
 
     return {
@@ -29,11 +31,18 @@ export default {
 <style scoped lang="scss">
 .masonry-frame {
   columns: 4;
-  position: absolute;
+  position: relative;
 }
 
 div {
   break-inside: avoid;
 
+}
+
+
+@media (max-width: 756px) {
+  .masonry-frame {
+    columns: 2;
+  }
 }
 </style>

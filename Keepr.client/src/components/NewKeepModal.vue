@@ -36,6 +36,7 @@
 
 
 <script>
+import { Modal } from 'bootstrap'
 import { ref } from 'vue'
 import { keepsService } from '../services/KeepsService'
 import { logger } from '../utils/Logger'
@@ -49,6 +50,9 @@ export default {
             async createKeep() {
                 try {
                     await keepsService.createKeep(keepData.value)
+                    Modal.getOrCreateInstance(document.getElementById('new-keep-modal')).hide()
+                    // reset ref object back to an empyt object
+                    // keepData.value = {}
                     Pop.toast("Keep Created")
                 } catch (error) {
                     Pop.toast(error, "error")

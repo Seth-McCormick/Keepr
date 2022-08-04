@@ -57,6 +57,8 @@ export default {
             async createVault() {
                 try {
                     await vaultsService.createVault(vaultData.value)
+                    // hide/close modal after submission
+                    // reset the ref object (vaultData)
                     Pop.toast("Vault Created")
                 } catch (error) {
                     Pop.toast(error, "error")

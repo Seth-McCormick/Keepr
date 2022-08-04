@@ -1,12 +1,15 @@
 <template>
 
-    <div class="col-md-12 shadow rounded  selectable" data-bs-target="#keep-modal" data-bs-toggle="modal"
+    <div class="col-md-12 shadow rounded  selectable" data-bs-target="#vault-keep-modal" data-bs-toggle="modal"
         @click="setActiveKeep">
         <div class=" ">
-            <img class=" img-fluid background-image" :src="vaultKeep.img" alt="">
+            <img class=" img-fluid background-image rounded" :src="vaultKeep.img" alt="">
         </div>
-        <div class="text-img d-flex justify-content-between">
+        <div class="text-img d-flex justify-content-between text-light">
             <h4>{{ vaultKeep.name }}</h4>
+        </div>
+        <div class="profile-img">
+
             <img class="action profile-img" @click="goToProfile" :src="vaultKeep.creator.picture" alt="">
         </div>
     </div>
@@ -42,7 +45,7 @@ export default {
             },
             async setActiveKeep() {
                 try {
-                    keepsService.setActiveKeep(props.vaultKeep.id)
+                    keepsService.setActiveKeep(props.vaultKeep)
                 } catch (error) {
                     Pop.toast(error.message, "error")
                     logger.log(error)
@@ -56,14 +59,19 @@ export default {
 
 <style lang="scss" scoped>
 .text-img {
-    max-width: 100%;
-    position: relative;
+    position: absolute;
+    bottom: 2px;
+    left: 5px;
     display: block;
     object-fit: contain;
+    text-shadow: 2px 2px 4px black;
 }
 
 .profile-img {
     border-radius: 50%;
     height: 30px;
+    position: absolute;
+    bottom: 4px;
+    right: 5px;
 }
 </style>

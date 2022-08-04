@@ -36,9 +36,13 @@ namespace Keepr.Services
             {
                 throw new Exception("Invalid Id");
             }
-            found.Views++;
+            _repo.increaseViews(found);
+            // write a function in your repo layer that will edit and increase the views property
+            // send in the entire keep (found)
             return found;
         }
+
+
 
         internal Keep Create(Keep keepData)
         {

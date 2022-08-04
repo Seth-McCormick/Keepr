@@ -9,10 +9,12 @@ class KeepsService {
         AppState.keeps = res.data
     }
 
-    async setActiveKeep(id) {
-        const res = await api.get(`api/keeps/${id}`)
+    async setActiveKeep(keep) {
+        // const res = await api.get(`api/keeps/${id}`)
         // logger.log(res.data)
-        AppState.activeKeep = res.data
+        logger.log(keep)
+        AppState.activeKeep = keep
+        logger.log(AppState.activeKeep)
         // logger.log("active keep", res.data)
     }
 
@@ -20,7 +22,14 @@ class KeepsService {
         const res = await api.post('api/keeps', keepData)
         logger.log('keep created', res.data)
 
+        AppState.usersKeeps.push(res.data)
+        return res.data
+    }
 
+    async deleteKeep(id) {
+        const res = await api.delete(`api/keeps/${id}`)
+        logger.log("keep deleted", res.data)
+        AppState.keeps = AppState.keeps.filter(k => k.id != id)
     }
 
 }

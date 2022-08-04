@@ -45,7 +45,8 @@ namespace Keepr.Services
             {
                 throw new Exception("Can't Add a keep to a vault");
             }
-
+            // write a function to your repo layer that will edit the keep 
+            // make sure to send in the entire keep object
             return _repo.Create(vaultKeepData);
         }
 

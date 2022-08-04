@@ -48,6 +48,17 @@ namespace Keepr.Repositories
             }, new { id }).FirstOrDefault();
         }
 
+        internal void increaseViews(Keep found)
+        {
+            string sql = @"
+            UPDATE keeps
+            SET
+            views = @Views+1
+            WHERE found.id = @Id
+            ";
+            _db.Execute(sql, found);
+        }
+
         internal Keep CreateKeep(Keep keepData)
         {
             string sql = @"

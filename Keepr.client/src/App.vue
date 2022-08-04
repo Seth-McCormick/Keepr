@@ -7,6 +7,7 @@
     <KeepModal />
     <NewVaultModal />
     <NewKeepModal />
+    <VaultKeepModal />
   </main>
 
 </template>
