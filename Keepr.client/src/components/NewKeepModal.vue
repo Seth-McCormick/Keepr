@@ -15,13 +15,14 @@
                     <form @submit.prevent="createKeep">
 
                         <h5 class="m-0">Title</h5>
-                        <input class="form-control mt-1 mb-3" placeholder="Title..." type="text"
+                        <input required class="form-control mt-1 mb-3" placeholder="Title..." type="text"
                             v-model="keepData.name">
                         <h5 class="m-0">Image Url</h5>
-                        <input class="form-control mt-1 mb-3" placeholder="URL..." type="text" v-model="keepData.img">
+                        <input required class="form-control mt-1 mb-3" placeholder="URL..." type="text"
+                            v-model="keepData.img">
                         <h5 class="">Description</h5>
-                        <textarea class="form-control" placeholder="Description..." name="" id="" cols="30" rows="5"
-                            v-model="keepData.description"></textarea>
+                        <textarea required class="form-control" placeholder="Description..." name="" id="" cols="30"
+                            rows="5" v-model="keepData.description"></textarea>
                         <div class="text-end mt-3">
 
                             <button type="submit" class="btn btn-success">Create</button>
@@ -49,10 +50,10 @@ export default {
             keepData,
             async createKeep() {
                 try {
-                    await keepsService.createKeep(keepData.value)
                     Modal.getOrCreateInstance(document.getElementById('new-keep-modal')).hide()
+                    await keepsService.createKeep(keepData.value)
+                    keepData.value = {}
                     // reset ref object back to an empyt object
-                    // keepData.value = {}
                     Pop.toast("Keep Created")
                 } catch (error) {
                     Pop.toast(error, "error")

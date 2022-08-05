@@ -10,7 +10,8 @@
         </div>
         <div class="profile-img">
 
-            <img class="action profile-img" @click="goToProfile" :src="keep.creator.picture" alt="">
+            <img class="action profile-img" :title="keep.creator.name" @click="goToProfile" :src="keep.creator.picture"
+                alt="">
         </div>
     </div>
 
@@ -50,7 +51,8 @@ export default {
             async setActiveKeep() {
                 try {
                     keepsService.setActiveKeep(props.keep)
-                    // views ++
+
+                    // props.keep.views++
                 } catch (error) {
                     Pop.toast(error.message, "error")
                     logger.log(error)

@@ -17,8 +17,13 @@ export default {
   name: 'Home',
   setup() {
     onMounted(async () => {
-      await keepsService.getKeeps(),
-        await profilesService.getUsersVaults()
+      try {
+        await keepsService.getKeeps()
+        // await profilesService.getUsersVaults()
+
+      } catch (error) {
+
+      }
     })
 
     return {

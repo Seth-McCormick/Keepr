@@ -17,6 +17,7 @@ class VaultKeepsService {
 
     async addToVault(newVK) {
         const res = await api.post('api/vaultKeeps', newVK)
+
         if (AppState.activeVaultId == newVK.vaultId) {
             await vaultsService.getVaultKeeps(newVK.vaultId)
         }

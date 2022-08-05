@@ -53,10 +53,25 @@ namespace Keepr.Repositories
             string sql = @"
             UPDATE keeps
             SET
-            views = @Views+1
-            WHERE found.id = @Id
+
+            views = @Views + 1
+            
+            WHERE id = @Id;
             ";
             _db.Execute(sql, found);
+        }
+
+        internal void IncreaseKept(Keep foundKeep)
+        {
+            string sql = @"
+           UPDATE keeps
+           SET 
+
+           kept = @Kept + 1
+
+           WHERE id = @Id
+           ";
+            _db.Execute(sql, foundKeep);
         }
 
         internal Keep CreateKeep(Keep keepData)

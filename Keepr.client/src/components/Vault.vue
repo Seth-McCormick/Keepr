@@ -14,9 +14,8 @@
     
     
     <script>
-import { computed } from 'vue'
+
 import { useRouter } from 'vue-router'
-import { AppState } from '../AppState'
 import { vaultsService } from '../services/VaultsService'
 import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
@@ -32,8 +31,10 @@ export default {
     setup(props) {
         const router = useRouter()
         return {
+            router,
             async goToVaultPage() {
                 try {
+                    debugger
                     await vaultsService.setActiveVault(props.vault.id)
                     router.push({ name: 'Vault', params: { id: props.vault.id } })
 

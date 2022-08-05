@@ -18,10 +18,10 @@
                 <div class="modal-body">
                     <form @submit.prevent="createVault">
                         <h5 class="">Title</h5>
-                        <input id="name" name="name" placeholder="Title..." class="form-control mb-3" type="text"
-                            v-model="vaultData.name">
+                        <input required id="name" name="name" placeholder="Title..." class="form-control mb-3"
+                            type="text" v-model="vaultData.name">
                         <h5 class="">Image Url</h5>
-                        <input id="img" name="img" placeholder="Url..." class="form-control mb-3" type="text"
+                        <input required id="img" name="img" placeholder="Url..." class="form-control mb-3" type="text"
                             v-model="vaultData.img">
 
                         <div class="d-flex">
@@ -42,6 +42,7 @@
 
 
 <script>
+import { Modal } from 'bootstrap'
 import { ref } from 'vue'
 import { vaultsService } from '../services/VaultsService'
 import { logger } from '../utils/Logger'
@@ -51,12 +52,14 @@ export default {
 
 
     setup() {
-        const vaultData = ref({})
+        let vaultData = ref({})
         return {
             vaultData,
             async createVault() {
                 try {
+                    Modal.getOrCreateInstance(document.getElementById('vault-modal')).hide()
                     await vaultsService.createVault(vaultData.value)
+                    vaultData = {}
                     // hide/close modal after submission
                     // reset the ref object (vaultData)
                     Pop.toast("Vault Created")

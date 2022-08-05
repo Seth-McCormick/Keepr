@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 
   <div class="col-md-3 mt-5 ms-5 d-flex">
     <img class="profile-img rounded" :src="account.picture" alt="">
@@ -113,4 +113,4 @@ div {
   }
 
 }
-</style>
+</style> -->

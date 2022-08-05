@@ -11,11 +11,14 @@ namespace Keepr.Services
         private readonly VaultsService _vs;
         private readonly KeepsService _ks;
 
-        public VaultKeepsService(VaultKeepsRepository repo, VaultsService vs, KeepsService ks)
+        private readonly KeepsRepository _kr;
+
+        public VaultKeepsService(VaultKeepsRepository repo, VaultsService vs, KeepsService ks, KeepsRepository kr)
         {
             _repo = repo;
             _vs = vs;
             _ks = ks;
+            _kr = kr;
         }
 
         private VaultKeep Get(int id)
@@ -39,12 +42,14 @@ namespace Keepr.Services
 
         internal VaultKeep Create(VaultKeep vaultKeepData, string userId)
         {
-            Vault found = _vs.GetById(vaultKeepData.VaultId, userId);
-
-            if (found.CreatorId != userId)
+            Vault foundVault = _vs.GetById(vaultKeepData.VaultId, userId);
+            Keep foundKeep = _kr.GetById(vaultKeepData.KeepId);
+            _kr.IncreaseKept(foundKeep);
+            if (foundVault.CreatorId != userId)
             {
                 throw new Exception("Can't Add a keep to a vault");
             }
+
             // write a function to your repo layer that will edit the keep 
             // make sure to send in the entire keep object
             return _repo.Create(vaultKeepData);

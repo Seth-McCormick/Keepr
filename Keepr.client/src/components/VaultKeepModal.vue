@@ -101,7 +101,7 @@ export default {
                         await vaultKeepsService.remove(this.keep.vaultKeepId)
                         Pop.toast('Keep Removed')
                     }
-                    // hide modal after deleting
+
 
                 } catch (error) {
                     Pop.toast("error")

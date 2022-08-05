@@ -85,7 +85,7 @@ export default {
             user: computed(() => AppState.user),
             account: computed(() => AppState.account),
             keep: computed(() => AppState.activeKeep),
-            vaults: computed(() => AppState.usersVaults),
+            vaults: computed(() => AppState.myVaults),
             activeKeep: computed(() => AppState.activeKeep),
             goToProfile() {
                 try {
@@ -103,9 +103,10 @@ export default {
                     keepId: this.keep.id
                 }
                 try {
-
+                    Modal.getOrCreateInstance(document.getElementById('keep-modal')).hide()
                     await vaultKeepsService.addToVault(newVaultKeep)
                     vaultId.value = 0
+                    this.keep.kept++
                     Pop.toast("Added to Vault")
                 } catch (error) {
                     Pop.toast("error")
@@ -116,6 +117,7 @@ export default {
             async deleteKeep() {
                 try {
                     if (await Pop.confirm()) {
+                        Modal.getOrCreateInstance(document.getElementById('keep-modal')).hide()
                         await keepsService.deleteKeep(this.keep.id)
                         Pop.toast("Keep Deleted")
                     }

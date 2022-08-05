@@ -86,10 +86,11 @@ namespace Keepr.Services
 
         internal List<Vault> GetVaultByAccount(string userId)
         {
+
             List<Vault> vaults = _repo.GetVaultByAccount(userId);
-            vaults.FindAll(v => v.IsPrivate == false || v.CreatorId == userId);
-            // go through the vaults we just returned abd findall where isprivate == false OR the vault creator is == userId
-            return vaults;
+            return vaults.FindAll(v => v.IsPrivate == false || v.CreatorId == userId);
+            // go through the vaults we just returned abd findall where isprivate == false OR the vault creator is ==
+
         }
 
         internal void Delete(int id, string userId)
