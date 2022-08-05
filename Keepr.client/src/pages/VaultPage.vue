@@ -31,8 +31,15 @@ export default {
         const router = useRouter()
         const route = useRoute()
         onMounted(async () => {
-            await vaultsService.setActiveVault(route.params.id)
-            await vaultsService.getVaultKeeps(route.params.id)
+            try {
+                await vaultsService.setActiveVault(route.params.id)
+                await vaultsService.getVaultKeeps(route.params.id)
+
+            } catch (error) {
+                Pop.toast("Vault Is Private", 'error')
+                logger.log(error)
+                router.push({ name: 'Home', params: { id: route.params.id } })
+            }
 
         })
 

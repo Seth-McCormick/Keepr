@@ -51,8 +51,6 @@ export default {
             async setActiveKeep() {
                 try {
                     keepsService.setActiveKeep(props.keep)
-
-                    // props.keep.views++
                 } catch (error) {
                     Pop.toast(error.message, "error")
                     logger.log(error)

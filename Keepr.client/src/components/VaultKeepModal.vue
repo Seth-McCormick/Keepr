@@ -83,6 +83,8 @@ export default {
             vaults: computed(() => AppState.usersVaults),
             // activeKeep: computed(() => AppState.activeKeep),
             vaultKeep: computed(() => AppState.vaultKeeps),
+            account: computed(() => AppState.account),
+            user: computed(() => AppState.user),
             goToProfile() {
                 try {
                     Modal.getOrCreateInstance(document.getElementById('vault-keep-modal')).hide()

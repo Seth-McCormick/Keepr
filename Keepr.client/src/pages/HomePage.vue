@@ -10,6 +10,7 @@
 <script>
 import { computed, onMounted } from 'vue'
 import { AppState } from '../AppState'
+import { accountService } from '../services/AccountService'
 import { keepsService } from '../services/KeepsService'
 import { profilesService } from '../services/ProfilesService'
 
@@ -19,7 +20,6 @@ export default {
     onMounted(async () => {
       try {
         await keepsService.getKeeps()
-        // await profilesService.getUsersVaults()
 
       } catch (error) {
 

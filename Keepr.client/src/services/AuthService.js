@@ -28,6 +28,7 @@ AuthService.on(AuthService.AUTH_EVENTS.AUTHENTICATED, async function () {
   await accountService.getAccount()
   socketService.authenticate(AuthService.bearer)
   await accountService.getMyVaults()
+  await accountService.getMyKeeps()
   // NOTE if there is something you want to do once the user is authenticated, place that here
   // go and get all of MY vaults,keeps,etc
   // make api requests through the account routes and save the data into MyVaults or userVaults

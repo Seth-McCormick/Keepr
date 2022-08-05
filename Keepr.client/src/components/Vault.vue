@@ -34,7 +34,7 @@ export default {
             router,
             async goToVaultPage() {
                 try {
-                    debugger
+
                     await vaultsService.setActiveVault(props.vault.id)
                     router.push({ name: 'Vault', params: { id: props.vault.id } })
 

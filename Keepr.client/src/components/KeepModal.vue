@@ -11,8 +11,10 @@
                             aria-label="Close"></button>
                     </div>
                     <div class="d-flex  justify-content-center">
-                        <h5 class="mx-3 mb-0">Views: {{ keep.views }}</h5>
-                        <h5 class="mx-3 mb-0">Kepts: {{ keep.kept }}</h5>
+
+                        <i class="mdi mdi-eye mx-2" title="Views"> {{ keep.views }}</i>
+                        <i class="mdi mdi-alpha-k-box mx-2" title="Added To A Vault">{{ keep.kept }}</i>
+
                     </div>
                     <h1 class="text-center ">{{ keep.name }}</h1>
                     <p>{{ keep.description }}</p>
@@ -22,22 +24,13 @@
 
 
                         <select name="vault" id="vault" @change="addToVault" v-model="vaultId">
-                            <!-- v-for over the userVaults -->
+
                             <option value="0" disabled selected hidden>ADD TO VAULT</option>
                             <option v-for="v in vaults" :key="v.id" :value="v.id">{{ v.name }}</option>
                         </select>
 
 
-                        <!-- <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                ADD TO VAULT
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" href="#" v-for="v in vaults" :key="v.id" :value="vaults.id"
-                                        @click="addToVault(vaultKeepData)">{{ v.name }}</a></li>
-                            </ul>
-                        </div> -->
+
 
                         <div>
                             <i class="mdi mdi-delete selectable mdi-24px" title="Delete"
@@ -143,6 +136,10 @@ img {
     height: 10px;
     width: 10px;
     border-radius: 25%;
+}
+
+.mdi {
+    color: rgb(0, 0, 0);
 }
 
 @media (max-width: 756px) {

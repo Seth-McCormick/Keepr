@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
 
   <div class="col-md-3 mt-5 ms-5 d-flex">
     <img class="profile-img rounded" :src="account.picture" alt="">
@@ -14,7 +14,7 @@
   <div class="col-md-12 m-5 ">
     <div class="d-flex">
       <h1>Vaults</h1>
-      <i class="mdi mdi-plus d-flex align-items-center selectable" title="Create Vault" data-bs-toggle="modal"
+      <i class="mdi mdi-plus d-flex mdi-36px align-items-center selectable" title="Create Vault" data-bs-toggle="modal"
         data-bs-target="#vault-modal"></i>
     </div>
     <div>
@@ -30,7 +30,7 @@
   <div class="col-md-12 m-5">
     <div class="d-flex">
       <h1>Keeps</h1>
-      <i class="mdi mdi-plus d-flex align-items-center selectable" title="Create Keep" data-bs-toggle="modal"
+      <i class="mdi mdi-plus d-flex mdi-36px align-items-center selectable" title="Create Keep" data-bs-toggle="modal"
         data-bs-target="#new-keep-modal"></i>
     </div>
     <div>
@@ -45,40 +45,42 @@
 </template>
 
 <script>
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
 import { profilesService } from '../services/ProfilesService'
-import { computed, onMounted, watchEffect } from 'vue'
+import { computed, onMounted } from 'vue'
 import { AppState } from '../AppState'
-import { vaultsService } from '../services/VaultsService'
-import { keepsService } from '../services/KeepsService'
+
+import { accountService } from '../services/AccountService'
+
+
 
 export default {
-  name: 'ProfilePage',
+  name: 'AccountPage',
 
   setup() {
-    const route = useRoute()
-    watchEffect(async () => {
-      // should have a try catch
-      // when it catches error...push back to the home page
-      if (route.params.id) {
+    const router = useRouter()
 
-        await profilesService.getProfile(route.params.id),
-          await profilesService.getUsersVaults(route.params.id),
-          await profilesService.getUsersKeeps(route.params.id)
-        // await vaultsService.getVaultKeeps(route.params.id)
+    onMounted(async () => {
+
+      try {
+        await accountService.getMyVaults()
+        await accountService.getMyKeeps()
+      } catch (error) {
+        Pop.toast(error, "error")
+        logger.log(error)
+        // router.push({ name: 'Home', params: { id: route.params.id } })
       }
     })
     return {
-      route,
-      profile: computed(() => AppState.activeProfile),
-      vaults: computed(() => AppState.usersVaults),
-      keeps: computed(() => AppState.usersKeeps),
+
       account: computed(() => AppState.account),
+      vaults: computed(() => AppState.myVaults),
+      keeps: computed(() => AppState.usersKeeps),
       async getProfile() {
         try {
-          await profilesService.getProfile(route.params.id)
+          await profilesService.getProfile()
         } catch (error) {
           Pop.toast(error, "error")
           logger.log(error)
@@ -113,4 +115,4 @@ div {
   }
 
 }
-</style> -->
+</style>

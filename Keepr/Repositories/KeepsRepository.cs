@@ -87,6 +87,12 @@ namespace Keepr.Repositories
             return keepData;
         }
 
+        internal List<Keep> GetKeepByAccount(string userId)
+        {
+            string sql = "SELECT * FROM keeps WHERE keeps.creatorId = @userId";
+            return _db.Query<Keep>(sql, new { userId }).ToList();
+        }
+
         internal void Edit(Keep update)
         {
             string sql = @"
