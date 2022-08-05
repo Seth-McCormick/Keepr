@@ -53,9 +53,7 @@ namespace Keepr.Repositories
             string sql = @"
             UPDATE keeps
             SET
-
-            views = @Views + 1
-            
+            views = @Views+1
             WHERE id = @Id;
             ";
             _db.Execute(sql, found);
@@ -66,9 +64,7 @@ namespace Keepr.Repositories
             string sql = @"
            UPDATE keeps
            SET 
-
-           kept = @Kept + 1
-
+           kept = @Kept+1
            WHERE id = @Id
            ";
             _db.Execute(sql, foundKeep);
