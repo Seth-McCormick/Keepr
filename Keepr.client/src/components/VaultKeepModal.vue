@@ -33,7 +33,8 @@
 
 
                             <div>
-                                <button class="border-secondary rounded" @click="removeFromVault()">Remove
+                                <button v-if="keep.creator?.id == account.id" class="border-secondary rounded"
+                                    @click="removeFromVault()">Remove
                                     From
                                     Vault</button>
                             </div>

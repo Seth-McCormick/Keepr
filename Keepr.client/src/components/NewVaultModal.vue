@@ -60,8 +60,7 @@ export default {
                     Modal.getOrCreateInstance(document.getElementById('vault-modal')).hide()
                     await vaultsService.createVault(vaultData.value)
                     vaultData = {}
-                    // hide/close modal after submission
-                    // reset the ref object (vaultData)
+
                     Pop.toast("Vault Created")
                 } catch (error) {
                     Pop.toast(error, "error")

@@ -32,11 +32,12 @@ namespace Keepr.Services
         internal Keep GetById(int id)
         {
             Keep found = _repo.GetById(id);
-            _repo.increaseViews(found);
             if (found == null)
             {
                 throw new Exception("Invalid Id");
             }
+            _repo.increaseViews(found);
+            found.Views++;
             // write a function in your repo layer that will edit and increase the views property
             // send in the entire keep (found)
             return found;
