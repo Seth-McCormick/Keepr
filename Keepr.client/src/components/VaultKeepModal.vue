@@ -62,7 +62,7 @@
 
 <script>
 import { Modal } from 'bootstrap'
-import { computed, watchEffect } from 'vue'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { AppState } from '../AppState'
 
@@ -74,9 +74,9 @@ import Pop from '../utils/Pop'
 export default {
     setup() {
         const router = useRouter()
-        watchEffect(async () => {
-            await vaultsService.getVaultKeeps()
-        })
+        // onMounted(async () => {
+        //     await vaultsService.getVaultKeeps()
+        // })
 
 
         return {
